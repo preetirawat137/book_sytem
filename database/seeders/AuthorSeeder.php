@@ -18,6 +18,7 @@ class AuthorSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $author = new Author;
             $author->name = $Faker->name;
+            $author->email = $Faker->email;
             $author->save();
         }
     }

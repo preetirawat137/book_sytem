@@ -18,7 +18,9 @@ class BookSeeder extends Seeder
         for( $i=0; $i<5; $i++){
     $Book= new Book;
     $Book->name= $Faker->name;
+    $Book->image=$Faker->imageUrl($width = 640, $height = 480, 'books');
     $Book->description= $Faker->paragraph();
+    $Book->author_id= $Faker->numberBetween(1,5); 
     $Book->save();
     }
 }

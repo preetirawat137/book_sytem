@@ -28,13 +28,17 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+                ->middleware('auth')
+                ->name('logout');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
- Route::get('/attach',[AuthorbookController::class,'index']);
- Route::get('/show/{id}',[AuthorbookController::class,'show']);
- Route::get('/get-data',[AuthorbookController::class,'getdata']);
-
-
+Route::get('/attach', [AuthorbookController::class, 'index'])->name('book');
+Route::get('/show/{id}', [AuthorbookController::class, 'show']);
+Route::get('/get-data', [AuthorbookController::class, 'getdata']);
+Route::get('/review-form/{id}', [AuthorbookController::class, 'createreview'])->name('review.create');
+Route::post('/review', [AuthorbookController::class, 'reviewstore'])->name('review');
+// Route::post('/logout', [AuthorbookController::class, 'logout']);
 
 
