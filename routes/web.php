@@ -41,4 +41,11 @@ Route::get('/review-form/{id}', [AuthorbookController::class, 'createreview'])->
 Route::post('/review', [AuthorbookController::class, 'reviewstore'])->name('review');
 // Route::post('/logout', [AuthorbookController::class, 'logout']);
 
+// Route::get('email-test', function(){
+//     $details['email'] = 'nriya5892@gmail.com';
+//     $details['email'] = 'Akshaykumarwins@gmail.com';
+//     dispatch(new App\Jobs\SendEmailJob($details));
+//     dd('done');
+//     });
+
 

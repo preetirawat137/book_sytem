@@ -8,11 +8,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use App\Models\Book;
+use App\Models\User;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use App\Jobs\SendEmailJob;
 
 class AuthorbookController extends Controller
 {
@@ -67,21 +69,22 @@ class AuthorbookController extends Controller
         $review->book_id = $request->booking_id;
         $review->save();
 
-// $book= Book::findorfail($id);
-// dd($book);
+
         $authors = Author::with('books')->get();
+
+     
+        
         foreach ($authors as $author) {
-            $books = $author->books;
-            Mail::to($author->email)->send(new AuthorMail($author, $books));
+            //  dd($author->email);
+            // $books = $author->books;
+            dispatch(new SendEmailJob($author->email))->delay(now()->addSeconds(20));
+
+        
         }
+        
+ // return  redirect();
+        return Redirect('/attach')->withErrors(['Emails sent to authors.']);
 
-        return "Emails sent to authors.";
     }
 
-    public function Logout() {
-        Session::flush();
-        Auth::logout();
-  
-        return Redirect('login');
-    }
 }
