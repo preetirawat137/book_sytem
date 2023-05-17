@@ -21,7 +21,7 @@ protected  $data;
     public function __construct($data)
     {
         $this->data=$data;
-        // dd($this->data);
+        // dd($data);
     }
 
     /**
@@ -29,20 +29,20 @@ protected  $data;
      */
     public function handle()
     {
-        // $email = new AuthorMail();
-        // Mail::to($this->details['email'])->send($email);
+         $email = new AuthorMail();
+          Mail::to($this->data['email'])->send($email);
 
-        Mail::send(['html'=>'email.test'], [], function($message)
+        // Mail::send(['html'=>'email.test'], [], function($message)
     
-            {
+        //     {
 
-            $message->to('nriya5892@gmail.com', 'John')
+        //     $message->to('nriya5892@gmail.com', 'John')
 
-            ->subject('This is test email.');
+        //     ->subject('This is test email.');
 
-            $message->from('preetirawatwins@gmail.com','LaravelQueue');
+        //     $message->from('preetirawatwins@gmail.com','LaravelQueue');
 
-            });
+        //     });
     }
 
 }

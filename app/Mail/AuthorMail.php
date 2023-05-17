@@ -13,13 +13,15 @@ class AuthorMail extends Mailable
 {
     use Queueable, SerializesModels;
     protected $author;
-    protected $books;
+    protected $book;
     /**
      * Create a new message instance.
      */
-    public function __construct($author, $books)
+    public function __construct($author, $book)
     {
-        //
+        $this->author=$author;
+        $this->book=$book;
+
     }
 
     /**
@@ -40,7 +42,7 @@ class AuthorMail extends Mailable
         return $this->view('email.test')
                     ->with([
                         'author' => $this->author,
-                        'books' => $this->books
+                        'books' => $this->book
                     ])
                     ->subject('New Book Release Notification');
     }

@@ -56,10 +56,7 @@ class AuthorbookController extends Controller
     }
     return Redirect::route('login');
 }
-
-
-
-    public function reviewstore(Request $request)
+ public function reviewstore(Request $request, $id)
     {
         // dd($request);
         $review = new Review();
@@ -69,21 +66,19 @@ class AuthorbookController extends Controller
         $review->book_id = $request->booking_id;
         $review->save();
 
-
-        $authors = Author::with('books')->get();
-
-     
+        $authors = Author::with('id')->get();
         
-        foreach ($authors as $author) {
+         foreach ($authors as $author) {
             //  dd($author->email);
             // $books = $author->books;
-            dispatch(new SendEmailJob($author->email))->delay(now()->addSeconds(20));
+            // dd($author->books);
+            dispatch(new SendEmailJob($author->email))->delay(now()->addSeconds(10));
 
         
         }
         
- // return  redirect();
-        return Redirect('/attach')->withErrors(['Emails sent to authors.']);
+ return  redirect('/attach');
+        // return Redirect('/attach')->withErrors(['Emails sent to authors.']);
 
     }
 
