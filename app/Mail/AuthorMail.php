@@ -8,19 +8,19 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Author;
+use App\Models\Book;
 
 class AuthorMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $author;
-    protected $book;
-    /**
-     * Create a new message instance.
-     */
-    public function __construct($author, $book)
+    protected $books, $author, $review;
+    //  * Create a new message instance.
+    public function __construct($author,  $books, $review)
     {
         $this->author=$author;
-        $this->book=$book;
+        $this->books=$books;
+        $this->review=$review;
 
     }
 
@@ -39,12 +39,9 @@ class AuthorMail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.test')
-                    ->with([
-                        'author' => $this->author,
-                        'books' => $this->book
-                    ])
-                    ->subject('New Book Release Notification');
+        return $this->view('email.test')->subject('New Book Release Notification')->with(['author'=> $this->author,
+        
+        'books'=> $this->books, 'review'=> $this->review]);
     }
     
 

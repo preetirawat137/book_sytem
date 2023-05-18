@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmailJob;
 use App\Mail\AuthorMail;
 
 use App\Http\Controllers\Controller;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Jobs\SendEmailJob;
+use Illuminate\Database\Eloquent\Builder;
 
 class AuthorbookController extends Controller
 {
@@ -26,9 +28,9 @@ class AuthorbookController extends Controller
 
 
 
-        // $books=Book::find(5);
-        // $books->authors()->sync([3,5]);
-        // return $books;
+        // $books=Book::find(1);
+        // $books->authors()->sync([3,2]);
+        // return  $books;
 
         // echo "<pre>";
         // print_r($books->toArray());
@@ -56,8 +58,7 @@ class AuthorbookController extends Controller
     }
     return Redirect::route('login');
 }
- public function reviewstore(Request $request, $id)
-    {
+ public function reviewstore(Request $request)    {
         // dd($request);
         $review = new Review();
         $review->review = $request->review;
@@ -65,19 +66,26 @@ class AuthorbookController extends Controller
         $review->user_id = Auth::user()->id;
         $review->book_id = $request->booking_id;
         $review->save();
+       $books= Book::find($request->booking_id)->with('authors')->first();
+        $author = Book::where('id', $request->booking_id)->first();
 
-        $authors = Author::with('id')->get();
-        
-         foreach ($authors as $author) {
-            //  dd($author->email);
-            // $books = $author->books;
-            // dd($author->books);
-            dispatch(new SendEmailJob($author->email))->delay(now()->addSeconds(10));
+        $email = Author::where('id', $author->author_id )->first(); 
 
+        // dd($email->email);
+        //  return $book->email;
+            
+        // if($books->authors){
+            // dd($books->authors);
+            // foreach($books->authors as $author){
+                dispatch(new EmailJob($email->email))->delay(now()->addSeconds(30));
+
+            // }
+        // }
+      
         
-        }
         
- return  redirect('/attach');
+    
+        return  redirect('/attach');
         // return Redirect('/attach')->withErrors(['Emails sent to authors.']);
 
     }

@@ -10,18 +10,22 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Mail\AuthorMail;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Review;
+
 
 class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-protected  $data;
+    public $books, $author, $review, $email;
     /**
      * Create a new job instance.
      */
-    public function __construct($data)
+    public function __construct($author,  $books, $review)
     {
-        $this->data=$data;
-        // dd($data);
+        $this->review = $review;
+        $this->author = $author;
+        $this->books = $books;
+        $this->email = $author->email;
     }
 
     /**
@@ -29,20 +33,18 @@ protected  $data;
      */
     public function handle()
     {
-         $email = new AuthorMail();
-          Mail::to($this->data['email'])->send($email);
+        // $author = $this->author;
+        // // // dd(  $author->email) ; 
+        // $email = $author->email;
+        // dd($email);
+        // $review = $this->review;
+        // $books = $this->books;
+        // $email = new AuthorMail($this->author, $books, $review);
+        //  Mail::to($this->$author->email)->send( $email); 
+        // Mail::to($this->author->email)->send(new AuthorMail($email, $books, $review));
 
-        // Mail::send(['html'=>'email.test'], [], function($message)
-    
-        //     {
-
-        //     $message->to('nriya5892@gmail.com', 'John')
-
-        //     ->subject('This is test email.');
-
-        //     $message->from('preetirawatwins@gmail.com','LaravelQueue');
-
-        //     });
+        Mail::send('authormail', ['data' => $this->email], function ($message) {
+            $message->to($this->email)->subject("Review");
+        });
     }
-
 }

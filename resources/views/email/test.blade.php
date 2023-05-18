@@ -11,7 +11,9 @@
         <h2 style="padding:23px; background:#e2e2; border-bottom:6px green solid;" >
         <a href="https://www.google.com/">visit here</a>
         </h2>
-    <p>Hello author you books are amazing</p>
+    <p>Hello author you books are good</p>
+  
+    
     <strong>Thank You</strong>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   </body>
